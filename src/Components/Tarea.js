@@ -55,14 +55,25 @@ const Tarea = ({primero,finalizar,ordenarUp, ordenarDown,tarea, index, crearTare
      clearInterval(pause);
   }, [])
 
+     const [botonPlay, setBotonPlay] = useState(false)
+     const cambio = () => setBotonPlay(!botonPlay);
+
+
   const pausa = ()=>{
     clearInterval(pause);
-
+    cambio();
   }
 
   const play = ()=>{
     runTimer();
+    cambio();
   }
+  const detener = ()=>{
+    setBotonPlay(false);
+    clearInterval(pause);
+    setTimer(tarea.segundos[0] + tarea.minutos[0] * 60 + tarea.hora[0] * 60 * 60);
+  }
+
 
   console.log("Hola")
 
@@ -91,9 +102,12 @@ const Tarea = ({primero,finalizar,ordenarUp, ordenarDown,tarea, index, crearTare
               </div>:
               <div>
               {tiempoView(hours)}{tiempoView(minutes)}{tiempoView(seconds)}
-              <button onClick={()=>{pausa()}}>pausa</button>
-              <button onClick={()=>{play(); primero(index)}}>Play</button>
               
+              {botonPlay?
+              <button onClick={()=>{pausa()}}>pausa</button>:
+              <button onClick={()=>{play(); primero(index)}}>Play</button>
+              }
+              <button onClick={()=>{detener()}}>detener</button>
             </div>
           }
           </Toast.Body>
