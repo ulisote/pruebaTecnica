@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import FormTarea from './Components/FormTarea';
 import Tarea from './Components/Tarea';
+import Grafica from './Components/Grafica';
 import Finalizada from './Components/Finalizada';
 import NavBar from './Components/NavBar';
 import {Button}  from 'react-bootstrap';
@@ -34,6 +35,7 @@ useEffect(()=>{
     ...tareas,
       tarea
     ])
+   console.log(tarea);
   }
 
   const eliminarTarea = id =>{
@@ -66,7 +68,6 @@ useEffect(()=>{
     const tomar = tareas.splice(index,1);
     tomar[0].active = true;
     tareas.splice(index,0,...tomar);
-
     guardarTareas([...tareas]);
   }
 
@@ -112,17 +113,25 @@ useEffect(()=>{
   const openHistorial=()=>{
     setHist(!hist);
   }
+
+
+  const [grafica, setGrafica] = useState(false);
+  const openGrafica = () => setGrafica(!grafica);
+
+
   return (
     <div className="container text-center">
      <Button variant="primary" size="lg" block onClick={handleShow}>Crear Tarea</Button>
     <div>
-      <FormTarea crearTarea={crearTarea} show={show} handleShow={handleShow} handleClose={handleClose}/> 
+      <FormTarea crearTarea={crearTarea} show={show}  handleShow={handleShow} handleClose={handleClose}/> 
     </div>
     {
-      tareas.length>0?<NavBar historial={historial} openHistorial={openHistorial} filtrar={filtrar} />:null
+      tareas.length>0?<NavBar historial={historial} openGrafica={openGrafica} openHistorial={openHistorial} filtrar={filtrar} />:null
     }
     <div className="container text-center">
-      {tareas.map((tarea, index)=>(
+      {
+      grafica?<Grafica tareas={tareas}/>:
+      tareas.map((tarea, index)=>(
       tarea.active?
       hist? <Finalizada key={tarea.id} tarea={tarea} eliminarTarea={eliminarTarea}/>:null
       :

@@ -1,12 +1,13 @@
 import React from 'react';
 import {Navbar, Button, Dropdown, DropdownButton}  from 'react-bootstrap';
 
-const NavBar =({openHistorial,historial,filtrar})=>{
+const NavBar =({openHistorial,historial,filtrar, openGrafica})=>{
 	return(
 		<Navbar bg="dark" variant="dark" className="navbar_tarea">
 		    <Navbar.Brand className="mr-auto" variant="white">Tareas</Navbar.Brand>
 
 		    <Button onClick={openHistorial}>Finalizadas {historial().length}</Button>
+		    <Button onClick={openGrafica}>Grafica</Button>
 		    <DropdownButton variant="info" title="Filtro">
 		        <Dropdown.Item eventKey="1" onClick={()=>filtrar(0)}>Todas</Dropdown.Item>
 		        <Dropdown.Divider />

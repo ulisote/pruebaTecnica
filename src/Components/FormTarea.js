@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ModalView from './ModalView'
 import { v4 as uuidv4 } from 'uuid';
 
 
 const FormTarea = ({crearTarea, handleClose, handleShow, show, tarea, actualizarTarea}) =>{
+  const fecha = new Date()
 
 const [tiempo, guardarTiempo] = useState({
   tarea:'',
@@ -13,10 +14,15 @@ const [tiempo, guardarTiempo] = useState({
   timer:0,
   active:false,
   eliminado:false,
+  tiempoRestante:0,
+  tiempo: fecha.getTime(),
 })
+
+
+  
   const cambiarTiempo=(e)=>{
     guardarTiempo({...tiempo,
-        [e.target.name]:[+e.target.value]
+        [e.target.name]:[+e.target.value],
     })
   }
   const cambiarTarea=e=>{
@@ -24,10 +30,13 @@ const [tiempo, guardarTiempo] = useState({
         tarea: e.target.value
     })
   }
+
+
+
   const submitTarea=e=>{
     e.preventDefault()
     tiempo.id = uuidv4();
-    crearTarea(tiempo)
+    crearTarea({...tiempo, tiempoRestante:tiempo.segundos[0] + tiempo.minutos[0] * 60 + tiempo.hora[0] * 60 * 60})
     guardarTiempo({
       tarea:'',
       hora:[0],
@@ -36,8 +45,11 @@ const [tiempo, guardarTiempo] = useState({
       timer:0,
       active:false,
       eliminado:false,
+      tiempoRestante:0,
+      tiempo: fecha.getTime(),
     })
     handleClose();
+  //console.log(tiempo);
   }
 
   let modificar = false;

@@ -11,23 +11,12 @@ const Tarea = ({primero,finalizar,ordenarUp, ordenarDown,tarea, index, crearTare
   const [showA, setShowA] = useState(true);
   const toggleShowA = () => setShowA(!showA);
 
-  const {hora, minutos, segundos} = tarea;
-  const tiempo = segundos[0] + minutos[0] * 60 + hora[0] * 60 * 60;
 
-  const [timer, setTimer] = useState(tarea.tiempoRestante != undefined? tarea.tiempoRestante: tiempo);
+  const [timer, setTimer] = useState(tarea.tiempoRestante);
 
   useEffect(()=>{
-   // if(tarea.tiempoRestante != undefined)
-
-      //true
-
-      //setTimer(tarea.tiempoRestante)
-      
-
-    //else
-     // setTimer(tiempo)
-      
-  }, [tiempo]);
+    setTimer(tarea.tiempoRestante)
+  }, [tarea])
 
   const tiempoView=(numero)=>{
     const a = numero>=10 ? numero.toString()[0]:'0';
@@ -35,12 +24,7 @@ const Tarea = ({primero,finalizar,ordenarUp, ordenarDown,tarea, index, crearTare
     return a+b;
   }
 
-
   const [pause, setPause] = useState();
-
-
-
-
   const runTimer = ()=>{
       setPause(setInterval(() => {
         setTimer(timer => (
@@ -60,6 +44,7 @@ const Tarea = ({primero,finalizar,ordenarUp, ordenarDown,tarea, index, crearTare
     }
 
   },[timer])
+
   const pausa = ()=>{
     clearInterval(pause);
 
