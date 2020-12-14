@@ -94,6 +94,11 @@ useEffect(()=>{
     }
   }
 
+  useEffect(()=>{
+    console.log("app");
+
+  },[tareas])
+
 
   const historial = ()=>{
    const activos= tareas.filter(tarea =>{
@@ -118,6 +123,7 @@ useEffect(()=>{
   const [grafica, setGrafica] = useState(false);
   const openGrafica = () => setGrafica(!grafica);
 
+  console.log("adios");
 
   return (
     <div className="container text-center">

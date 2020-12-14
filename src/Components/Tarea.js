@@ -21,10 +21,16 @@ const Tarea = ({primero,finalizar,ordenarUp, ordenarDown,tarea, index, crearTare
   const tiempoView=(numero)=>{
     const a = numero>=10 ? numero.toString()[0]:'0';
     const b = numero>=10 ? numero.toString()[1]:numero.toString();
-    return a+b;
+
+    return numero>0? a+b : "00";
   }
 
   const [pause, setPause] = useState();
+
+  useEffect(()=>{
+     clearInterval(pause);
+  }, [])
+
   const runTimer = ()=>{
       setPause(setInterval(() => {
         setTimer(timer => (
@@ -40,18 +46,25 @@ const Tarea = ({primero,finalizar,ordenarUp, ordenarDown,tarea, index, crearTare
     let TareasIniciales = JSON.parse(localStorage.getItem('tareas'));
     if(TareasIniciales[index]){
       TareasIniciales[index].tiempoRestante = timer;
+      TareasIniciales[index].active = timer>=0? false: true;
      localStorage.setItem('tareas', JSON.stringify(TareasIniciales));
     }
-
   },[timer])
+
+  useEffect(()=>{
+     clearInterval(pause);
+  }, [])
 
   const pausa = ()=>{
     clearInterval(pause);
 
   }
+
   const play = ()=>{
     runTimer();
   }
+
+  console.log("Hola")
 
   return (
     <Row>
@@ -70,10 +83,19 @@ const Tarea = ({primero,finalizar,ordenarUp, ordenarDown,tarea, index, crearTare
            </div>
           </Toast.Header>
           <Toast.Body>
-            {/*<MyTimer expiryTimestamp={time}/>*/}
-            {tiempoView(hours)}{tiempoView(minutes)}{tiempoView(seconds)}
-            <button onClick={()=>{pausa()}}>pausa</button>
-            <button onClick={()=>{play(); primero(index)}}>Play</button>
+            {/*<MyTimer expiryTimestamp={time}/>*/
+            console.log(timer),
+              timer==undefined?
+              <div className="finalizada">
+                Finalizada
+              </div>:
+              <div>
+              {tiempoView(hours)}{tiempoView(minutes)}{tiempoView(seconds)}
+              <button onClick={()=>{pausa()}}>pausa</button>
+              <button onClick={()=>{play(); primero(index)}}>Play</button>
+              
+            </div>
+          }
           </Toast.Body>
         </Toast>
       </Col>
