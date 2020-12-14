@@ -15,7 +15,7 @@ const [tiempo, guardarTiempo] = useState({
   active:false,
   eliminado:false,
   tiempoRestante:0,
-  tiempo: fecha.getTime(),
+  tiempo: fecha.getDay(),
 })
 
 
@@ -46,7 +46,7 @@ const [tiempo, guardarTiempo] = useState({
       active:false,
       eliminado:false,
       tiempoRestante:0,
-      tiempo: fecha.getTime(),
+      tiempo: fecha.getDay(),
     })
     handleClose();
   //console.log(tiempo);

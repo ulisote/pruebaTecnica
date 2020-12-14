@@ -5,6 +5,7 @@ import Grafica from './Components/Grafica';
 import Finalizada from './Components/Finalizada';
 import NavBar from './Components/NavBar';
 import {Button}  from 'react-bootstrap';
+import { v4 as uuidv4 } from 'uuid';
 
 
 
@@ -35,7 +36,6 @@ useEffect(()=>{
     ...tareas,
       tarea
     ])
-   console.log(tarea);
   }
 
   const eliminarTarea = id =>{
@@ -123,6 +123,35 @@ useEffect(()=>{
   const [grafica, setGrafica] = useState(false);
   const openGrafica = () => setGrafica(!grafica);
 
+
+  const aleatorio =()=>{
+    const otrasTareas =[];
+      for(let i = 0; i<50; i++){
+         const fecha = new Date(2020, 12, random(14, 6));
+            const task = {
+              tarea: "tarea"+i,
+              hora:[random(1,0)],
+              minutos:[random(59, 0)],
+              segundos:[random(59,0)],
+              id:uuidv4(),
+              timer:0,
+              active:true,
+              eliminado:false,
+              tiempoRestante:0,
+              tiempo: fecha.getDay(),
+            }
+        otrasTareas.push(task); 
+      }
+    guardarTareas([
+    ...tareas,
+    ...otrasTareas
+    ])
+
+  }
+  function random(min, max) {
+      return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+
   console.log("adios");
 
   return (
@@ -132,7 +161,7 @@ useEffect(()=>{
       <FormTarea crearTarea={crearTarea} show={show}  handleShow={handleShow} handleClose={handleClose}/> 
     </div>
     {
-      tareas.length>0?<NavBar historial={historial} openGrafica={openGrafica} openHistorial={openHistorial} filtrar={filtrar} />:null
+      tareas.length>0?<NavBar historial={historial} aleatorio={aleatorio} openGrafica={openGrafica} openHistorial={openHistorial} filtrar={filtrar} />:null
     }
     <div className="container text-center">
       {
